@@ -31,3 +31,22 @@ loov <- function(x, y, log = T)
 	return(r_squared)
 }
 
+corr_timeseries <- function(x, y, log = F, median_cal = T)
+{
+	corr <- rep(NA, nrow(x))
+	
+	for(i in seq(1,nrow(x)))
+	{
+		data <- x[-i,]
+		if(median_cal){
+			avg_data <- apply(data,2,median, na.rm = T)
+		}else{
+			avg_data <- apply(data,2,sum, na.rm = T)
+		}
+		
+		corr[i] <- cor(as.numeric(y[1,]),avg_data, use = 'pairwise.complete.obs')
+		
+	}
+	
+	return(corr)
+}

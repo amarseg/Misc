@@ -1,0 +1,35 @@
+---
+title: "Playing with global data"
+author: "Amalia MS"
+date: "Wednesday, April 27, 2016"
+output: html_document
+---
+
+The aim of this document is to keep plots regarding absolute and global data and its relationship with cell size. 
+
+####Plots checking the relationship between total protein copies per cell and cell size
+```{r, echo = FALSE}
+library(ggplot2)
+library(knitr)
+##Setting the working directory has to be in a different chunck for the thing to work
+knitr::opts_knit$set(root.dir = 'C:/Users/am4613/Documents/Summaries_as_timecourses/')
+```
+
+```{r}
+rna_cpc <- read.delim('rna_copies_per_cell.txt', header = T, strings = F)
+prot_cpc <- read.delim('analysis/cpc_proteins.txt', header = T, strings = F)
+prot_cpc <- 2^prot_cpc
+
+isx_data <- read.delim('analysis/isx_data_summary.txt', header = T, strings = F)
+mean_isx <- aggregate(isx_data, by = list(isx_data$time), median)
+
+ToDo <- data.frame(total_prot = colSums(prot_cpc), area = mean_isx$Area_Erode.M03..4.)
+ggplot(data = ToDo, aes(x = area, y = total_prot, grop = 1)) + geom_line() + geom_point()
+
+ToDo <- data.frame(total_rna = colSums(rna_cpc, na.rm  = T), area = mean_isx$Area_Erode.M03..4.)
+ggplot(data = ToDo, aes(x = area, y = total_rna, grop = 1)) + geom_line() + geom_point()
+
+```
+
+
+

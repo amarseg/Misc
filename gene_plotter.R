@@ -1,4 +1,4 @@
-gene_plotter <- function(ids, what, norm, rowlabs = NULL)
+gene_plotter <- function(ids, what, norm = 'DESeq', rowlabs = NULL)
 {
 	source('C:/Users/am4613/Documents/GitHub/Proteomics/normalise_script.R')
 	library('gtools', verbose = F)

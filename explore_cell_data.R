@@ -17,6 +17,8 @@ xyplot(ProteinPerCell ~ Length|Repeat, data = main_table)
 xyplot(RNAPerCell ~ ProteinPerCell|Repeat, data = main_table)
 
 
+g <- ggplot(main_table, aes(x = Time, y = Length, color = Repeat, group = Repeat))
+g + geom_line(size = 1.5) + geom_point(size = 3) + theme(legend.position = 'none')
 
 p1 <- ggplot(main_table,aes(x = Time, y = RNAPerCell, color = Repeat, group = Repeat)) + geom_line(size = 1.5) + geom_point(size = 3) + theme(legend.position= 'none')
 p2 <- ggplot(main_table,aes(x = Time, y = ProteinPerCell, color = Repeat, group = Repeat)) + geom_line(size = 1.5) + geom_point(size = 3) + theme(legend.position= 'none')

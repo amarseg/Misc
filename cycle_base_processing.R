@@ -24,7 +24,7 @@ colnames(exp_levels)[1] <- 'Experiment'
 exp_id <- unique(exp_levels$Experiment)
 
 times <- read.delim('fission_metadata.tsv', header = T, strings = F)
-colnames(time)[3] <- 'x-values'
+colnames(times)[3] <- 'x-values'
 
 a <- gsub(times[,3], patter = '\\{|\\}', replacement = '')
 a <- strsplit(a, split = ',')

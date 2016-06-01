@@ -1,0 +1,93 @@
+---
+title: "Cell cycle regulation"
+author: "Amalia MS"
+date: "Monday, May 02, 2016"
+output: html_document
+---
+
+One of our hypotheses for genes not scaling with cell size is the fact that those genes might be cell cycle regulated, only expressed in a burst. To check this, I collected data from cyclebase (collection of several experiments) and the elutriation data form Rustici et al (2002) for the heatmaps. 
+
+```{r, echo = F}
+knitr::opts_knit$set(root.dir = 'C:/Users/am4613/Documents/Summaries_as_timecourses/')
+source('C:/Users/am4613/Documents/GitHub/RNA_seq/cell_cycle_plotter.R')
+source('C:/Users/am4613/Documents/GitHub/Misc/gene_plotter.R')
+library('dendextend')
+
+```
+
+
+
+##RNA-sequencing differentially expressed genes
+###Average cell-cycle expression
+
+```{r, warning=FALSE}
+
+rna_genes <- read.delim('both_clustering/Cluster_2.txt', header = T, strings = F)
+
+cell_cycle_plotter(rna_genes[,1], average = T, ylim = c(-1,1))
+
+```
+
+###Heatmap with all the genes (are all the genes cell cycle regulated or some are dominating?)
+
+```{r, warning=FALSE}
+pdf(file = 'C:/Users/am4613/Documents/retreat_poster/cell_cycle_rna.pdf')
+cell_cycle_heatmap(ids = rna_genes[,1])
+dev.off()
+```
+
+##Genes identified in proteomics dataset using pearson correlation
+####Average cell-cycle expression
+
+```{r,warning=FALSE}
+prot_genes <- read.delim('protein_isx_correlation/negative_correlation_length.txt', header = T, strings = F)
+
+cell_cycle_plotter(row.names(prot_genes), average = T, ylim = c(-1,1))
+```
+
+####Heatmap with all the genes
+```{r,warning=FALSE}
+cell_cycle_heatmap(ids = row.names(prot_genes))
+```
+
+##How do genes that don't scale in protein level behave at the mRNA and viceversa?
+####Proteins
+
+```{r}
+h<-gene_plotter(row.names(prot_genes), what = 'RNA', norm = 'DESeq')
+```
+
+####RNA
+```{r}
+h<-gene_plotter(rna_genes[,1], what = 'Protein', norm = 'DESeq')
+
+```
+
+
+
+#Cell cycle profiles of all genes
+```{r, warning=FALSE}
+rpkm <- read.delim('C:/Users/am4613/Documents/Summaries_as_timecourses/analysis/me_rpkm.txt', header = T, strings = F)
+cell_cycle_plotter(row.names(rpkm), average = T, ylim = c(-1,1))
+cell_cycle_heatmap(ids = row.names(rpkm))
+```
+
+
+###How do nuclear genes behave in my dataset? Do they all scale? Are they all cell cycle regulated?
+```{r,warning=FALSE}
+nuclear_genes <- read.delim('nuclear_genes.txt', header = T, strings = F)
+nuclear_genes <- nuclear_genes$systematic_id
+
+h<-gene_plotter(nuclear_genes, what = 'RNA')
+clust <- h$rowDendrogram
+
+
+
+
+h<-gene_plotter(nuclear_genes, what = 'Protein')
+```
+
+##Cell cycle plots
+```{r, warning=FALSE}
+cell_cycle_heatmap(ids=nuclear_genes)
+```

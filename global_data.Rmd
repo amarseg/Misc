@@ -12,7 +12,7 @@ The aim of this document is to keep plots regarding absolute and global data and
 library(ggplot2)
 library(knitr)
 ##Setting the working directory has to be in a different chunck for the thing to work
-knitr::opts_knit$set(root.dir = 'C:/Users/am4613/Documents/Summaries_as_timecourses/')
+knitr::opts_knit$set(root.dir = 'C:/Users/am4613/OneDrive/Summaries_as_timecourses/')
 ```
 
 ```{r}
